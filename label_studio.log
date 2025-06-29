@@ -1,0 +1,80 @@
+=> Database and media directory: /Users/justinmartin/Library/Application Support/label-studio
+=> Static URL is set to: /static/
+=> Database and media directory: /Users/justinmartin/Library/Application Support/label-studio
+=> Static URL is set to: /static/
+Read environment variables from: /Users/justinmartin/Library/Application Support/label-studio/.env
+get 'SECRET_KEY' casted as '<class 'str'>' with default ''
+Not in REPL -> leaving logger event level as is.
+Looking for locale `en_US` in provider `faker.providers.address`.
+Provider `faker.providers.address` has been localized to `en_US`.
+Looking for locale `en_US` in provider `faker.providers.automotive`.
+Provider `faker.providers.automotive` has been localized to `en_US`.
+Looking for locale `en_US` in provider `faker.providers.bank`.
+Specified locale `en_US` is not available for provider `faker.providers.bank`. Locale reset to `en_GB` for this provider.
+Looking for locale `en_US` in provider `faker.providers.barcode`.
+Provider `faker.providers.barcode` has been localized to `en_US`.
+Looking for locale `en_US` in provider `faker.providers.color`.
+Provider `faker.providers.color` has been localized to `en_US`.
+Looking for locale `en_US` in provider `faker.providers.company`.
+Provider `faker.providers.company` has been localized to `en_US`.
+Looking for locale `en_US` in provider `faker.providers.credit_card`.
+Provider `faker.providers.credit_card` has been localized to `en_US`.
+Looking for locale `en_US` in provider `faker.providers.currency`.
+Provider `faker.providers.currency` has been localized to `en_US`.
+Looking for locale `en_US` in provider `faker.providers.date_time`.
+Provider `faker.providers.date_time` has been localized to `en_US`.
+Provider `faker.providers.doi` does not feature localization. Specified locale `en_US` is not utilized for this provider.
+Provider `faker.providers.emoji` does not feature localization. Specified locale `en_US` is not utilized for this provider.
+Provider `faker.providers.file` does not feature localization. Specified locale `en_US` is not utilized for this provider.
+Looking for locale `en_US` in provider `faker.providers.geo`.
+Provider `faker.providers.geo` has been localized to `en_US`.
+Looking for locale `en_US` in provider `faker.providers.internet`.
+Provider `faker.providers.internet` has been localized to `en_US`.
+Looking for locale `en_US` in provider `faker.providers.isbn`.
+Provider `faker.providers.isbn` has been localized to `en_US`.
+Looking for locale `en_US` in provider `faker.providers.job`.
+Provider `faker.providers.job` has been localized to `en_US`.
+Looking for locale `en_US` in provider `faker.providers.lorem`.
+Provider `faker.providers.lorem` has been localized to `en_US`.
+Looking for locale `en_US` in provider `faker.providers.misc`.
+Provider `faker.providers.misc` has been localized to `en_US`.
+Looking for locale `en_US` in provider `faker.providers.passport`.
+Provider `faker.providers.passport` has been localized to `en_US`.
+Looking for locale `en_US` in provider `faker.providers.person`.
+Provider `faker.providers.person` has been localized to `en_US`.
+Looking for locale `en_US` in provider `faker.providers.phone_number`.
+Provider `faker.providers.phone_number` has been localized to `en_US`.
+Provider `faker.providers.profile` does not feature localization. Specified locale `en_US` is not utilized for this provider.
+Provider `faker.providers.python` does not feature localization. Specified locale `en_US` is not utilized for this provider.
+Provider `faker.providers.sbn` does not feature localization. Specified locale `en_US` is not utilized for this provider.
+Looking for locale `en_US` in provider `faker.providers.ssn`.
+Provider `faker.providers.ssn` has been localized to `en_US`.
+Provider `faker.providers.user_agent` does not feature localization. Specified locale `en_US` is not utilized for this provider.
+Starting new HTTPS connection (1): pypi.org:443
+https://pypi.org:443 "GET /pypi/label-studio/json HTTP/1.1" 200 34980
+[2025-06-29 22:02:01,380] [django.server::log_message::213] [INFO] "GET / HTTP/1.1" 200 30877
+[2025-06-29 22:02:01,380] [django.server::log_message::213] [INFO] "GET / HTTP/1.1" 200 30877
+[2025-06-29 22:02:01,400] [django.server::log_message::213] [INFO] "GET /react-app/main.css?v=4fa70b HTTP/1.1" 200 179377
+[2025-06-29 22:02:01,400] [django.server::log_message::213] [INFO] "GET /react-app/main.css?v=4fa70b HTTP/1.1" 200 179377
+[2025-06-29 22:02:01,406] [django.server::log_message::213] [INFO] "GET /react-app/vendor.js?v=1 HTTP/1.1" 200 281400
+[2025-06-29 22:02:01,406] [django.server::log_message::213] [INFO] "GET /react-app/vendor.js?v=1 HTTP/1.1" 200 281400
+[2025-06-29 22:02:01,413] [django.server::log_message::213] [INFO] "GET /static/js/jquery.min.e6c2415c0ace.js HTTP/1.1" 200 87462
+[2025-06-29 22:02:01,413] [django.server::log_message::213] [INFO] "GET /static/js/jquery.min.e6c2415c0ace.js HTTP/1.1" 200 87462
+[2025-06-29 22:02:01,413] [django.server::log_message::213] [INFO] "GET /react-app/runtime.js?v=4fa70b HTTP/1.1" 200 6156
+[2025-06-29 22:02:01,413] [django.server::log_message::213] [INFO] "GET /react-app/runtime.js?v=4fa70b HTTP/1.1" 200 6156
+[2025-06-29 22:02:01,431] [django.server::log_message::213] [INFO] "GET /react-app/main.js?v=4fa70b HTTP/1.1" 200 1861855
+[2025-06-29 22:02:01,431] [django.server::log_message::213] [INFO] "GET /react-app/main.js?v=4fa70b HTTP/1.1" 200 1861855
+[2025-06-29 22:02:01,536] [django.server::log_message::213] [INFO] "GET /api/version HTTP/1.1" 200 1071
+[2025-06-29 22:02:01,536] [django.server::log_message::213] [INFO] "GET /api/version HTTP/1.1" 200 1071
+[2025-06-29 22:02:01,539] [django.server::log_message::213] [INFO] "GET /static/fonts/Figtree-Regular.ttf HTTP/1.1" 200 40584
+[2025-06-29 22:02:01,539] [django.server::log_message::213] [INFO] "GET /static/fonts/Figtree-Regular.ttf HTTP/1.1" 200 40584
+[2025-06-29 22:02:01,540] [django.server::log_message::213] [INFO] "GET /static/fonts/Figtree-SemiBold.ttf HTTP/1.1" 200 40852
+[2025-06-29 22:02:01,540] [django.server::log_message::213] [INFO] "GET /static/fonts/Figtree-SemiBold.ttf HTTP/1.1" 200 40852
+[2025-06-29 22:02:01,541] [django.server::log_message::213] [INFO] "GET /api/current-user/whoami HTTP/1.1" 200 350
+[2025-06-29 22:02:01,541] [django.server::log_message::213] [INFO] "GET /api/current-user/whoami HTTP/1.1" 200 350
+[2025-06-29 22:02:01,544] [django.server::log_message::213] [INFO] "GET /api/projects?page_size=10 HTTP/1.1" 200 4564
+[2025-06-29 22:02:01,544] [django.server::log_message::213] [INFO] "GET /api/projects?page_size=10 HTTP/1.1" 200 4564
+[2025-06-29 22:02:01,783] [django.server::log_message::213] [INFO] "GET /static/images/favicon.8992b8aa4126.ico HTTP/1.1" 200 15406
+[2025-06-29 22:02:01,783] [django.server::log_message::213] [INFO] "GET /static/images/favicon.8992b8aa4126.ico HTTP/1.1" 200 15406
+[2025-06-29 22:02:03,436] [django.server::log_message::213] [INFO] "GET /sw.js HTTP/1.1" 200 6221
+[2025-06-29 22:02:03,436] [django.server::log_message::213] [INFO] "GET /sw.js HTTP/1.1" 200 6221
