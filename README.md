@@ -22,45 +22,124 @@ This repository provides a complete workflow for:
 
 ## 🚀 Quick Start
 
-### 1. Clone and Setup Environment
+### 1. Clone and Setup
 
 ```bash
 # Clone the repository
-git clone https://github.com/imagicrafter/macpro_vision_ml.git
+git clone https://github.com/your-username/macpro_vision_ml.git
 cd macpro_vision_ml
 
-# Create Python 3.12 virtual environment
-python3.12 -m venv ml_env
-source ml_env/bin/activate
-
-# Install core dependencies
-pip install jupyter jupyterlab ultralytics label-studio
-pip install torch torchvision matplotlib opencv-python pillow
-pip install pandas numpy scikit-learn
+# Make setup script executable
+chmod +x setup.sh
 ```
 
-### 2. Start JupyterLab
+### 2. One-Command Startup
 
 ```bash
-# From project root directory
-jupyter lab
+# Start everything (virtual environment + Jupyter Lab + Label Studio)
+source ./setup.sh
 ```
 
-### 3. Follow the Notebook Sequence
+**⚠️ Important:** Always use `source ./setup.sh`, not `./setup.sh`
 
-1. **Setup & Classification**: `1_vision_model_setup.ipynb`
-2. **Data Annotation**: `2_label_studio_setup.ipynb` 
-3. **Data Pipeline**: `3_data_pipeline.ipynb`
-4. **Object Detection Training**: `4_object_detection_training.ipynb`
+### 3. What You Get
+
+After running the setup script:
+- ✅ **Virtual environment** activated in your shell
+- ✅ **Jupyter Lab**: http://localhost:8888 (for development)
+- ✅ **Label Studio**: http://localhost:8080 (for annotation)
+- ✅ **All packages** installed and verified
+
+## 📋 Environment Management
+
+### Available Commands
+
+After running `source ./setup.sh`, you have these commands:
+
+```bash
+check_services    # Check what's currently running
+stop_services     # Stop both Jupyter Lab and Label Studio
+show_help         # Show detailed help and troubleshooting
+```
+
+### Daily Workflow
+
+```bash
+# Morning: Start everything
+source ./setup.sh
+
+# Work all day using:
+# - Jupyter Lab at localhost:8888
+# - Label Studio at localhost:8080
+# - Virtual environment active in your shell
+
+# Evening: Stop everything
+stop_services
+```
+
+### Troubleshooting
+
+```bash
+# Check what's running
+check_services
+
+# View error logs
+tail label_studio.log
+tail jupyter.log
+
+# Manual cleanup if needed
+pkill -f jupyter
+pkill -f label-studio
+
+# Get help
+show_help
+```
+
+## 📁 Project Structure
+
+```
+macpro_vision_ml/
+├── setup.sh                    # One-command startup script
+├── requirements.txt             # Package dependencies
+├── .venv/                      # Virtual environment (auto-created)
+├── 1_vision_model_setup.ipynb  # Vision model fundamentals
+├── 2_label_studio_setup.ipynb  # Annotation setup
+├── 3_data_pipeline.ipynb       # Data conversion pipeline
+├── projects/                   # Your client projects
+│   └── your_project_name/
+│       ├── raw_images/
+│       └── project-export.json
+└── models/                     # Trained models
+```
 
 ## 📋 Complete Workflow Guide
 
-### Phase 1: Project Setup
+### Phase 1: Environment Setup
+
+#### Step 1: Initial Setup (One Time)
+```bash
+source ./setup.sh
+```
+
+This automatically:
+- Creates/activates virtual environment
+- Installs all required packages
+- Starts Jupyter Lab and Label Studio
+- Verifies everything works
+
+#### Step 2: Navigate to Notebooks
+Open http://localhost:8888 and run notebooks in sequence:
+1. `1_vision_model_setup.ipynb` - Vision model fundamentals
+2. `2_label_studio_setup.ipynb` - Annotation project setup
+3. `3_data_pipeline.ipynb` - Data conversion pipeline
+
+### Phase 2: Project Setup
 
 #### Step 1: Create Project Structure
 ```bash
 mkdir projects/your_project_name
 cd projects/your_project_name
+mkdir raw_images
 ```
 
 #### Step 2: Organize Your Images
@@ -71,76 +150,58 @@ projects/your_project_name/
 └── README.md               # Project-specific documentation
 ```
 
-### Phase 2: Data Annotation with Label Studio
+### Phase 3: Data Annotation with Label Studio
 
-#### Step 1: Setup Label Studio
-Run notebook: `2_label_studio_setup.ipynb`
+#### Step 1: Access Label Studio
+Open http://localhost:8080 (automatically started by setup script)
 
-```python
-# Creates annotation project structure
-setup_label_studio_project()
-```
+#### Step 2: Create Project
+1. Click "Create Project"
+2. Name your project (e.g., "Roof Damage Detection")
+3. **Data Import**: Upload images from your `raw_images/` folder
+4. **Labeling Setup**: Choose "Object Detection with Bounding Boxes"
 
-This creates:
-```
-your_project_annotation_project/
-├── raw_images/              # Upload your images here
-├── exported_data/           # Label Studio exports
-├── labeling_config.xml      # Annotation configuration
-└── README.md               # Setup instructions
-```
-
-#### Step 2: Start Label Studio Server
-```bash
-cd your_project_annotation_project
-label-studio start --port 8080
-```
-
-#### Step 3: Configure Project
-1. Open http://localhost:8080
-2. Create new project: "Your Project Name"
-3. **Data Import**: Upload images from `raw_images/`
-4. **Labeling Setup**: Copy configuration from `labeling_config.xml`
-
-#### Step 4: Annotation Guidelines
-
-**For Object Detection (Bounding Boxes):**
+#### Step 3: Configure Labels
 ```xml
-<RectangleLabels name="damage_detection" toName="image">
-    <Label value="class_1" background="#00ff00"/>
-    <Label value="class_2" background="#ffff00"/>
-    <Label value="class_3" background="#ff8800"/>
-    <Label value="class_4" background="#ff0000"/>
-</RectangleLabels>
+<View>
+  <Header value="Damage Assessment"/>
+  <Image name="image" value="$image" zoom="true"/>
+  <RectangleLabels name="damage" toName="image">
+    <Label value="no_damage" background="#00ff00"/>
+    <Label value="light_damage" background="#ffff00"/>
+    <Label value="moderate_damage" background="#ff8800"/>
+    <Label value="severe_damage" background="#ff0000"/>
+  </RectangleLabels>
+</View>
 ```
 
-**Annotation Process:**
+#### Step 4: Annotation Process
 1. Select damage type (colored button)
-2. Click and drag to draw bounding box
-3. Repeat for all damage areas
-4. Submit annotation
+2. Click and drag to draw bounding box around damage
+3. Repeat for all damage areas in the image
+4. Click "Submit" to save annotation
 
-#### Step 5: Export Annotations
-1. In Label Studio: **Export** → **JSON** 
-2. Save as `project-export.json` in your project directory
+#### Step 5: Export Data
+1. Go to project dashboard
+2. Click "Export" → "JSON"
+3. Save as `project-export.json` in your project directory
 
-### Phase 3: Data Pipeline Conversion
+### Phase 4: Data Pipeline Conversion
 
-#### Step 1: Run Data Pipeline
-Notebook: `3_data_pipeline.ipynb`
+#### Step 1: Convert Annotations
+In Jupyter Lab, run `3_data_pipeline.ipynb`:
 
 ```python
-# Convert Label Studio export to training format
+# Convert Label Studio export to YOLO training format
 convert_roof_damage_dataset(
-    'project-export.json',           # Label Studio export
-    'raw_images/',                   # Source images  
-    'training_dataset_v1',           # Output dataset name
-    split_method='ratio',            # or 'manual'
-    split_ratio=0.8                  # 80% train, 20% val
+    'projects/your_project/project-export.json',  # Label Studio export
+    'projects/your_project/raw_images/',          # Source images  
+    'training_dataset_v1',                        # Output dataset name
+    split_ratio=0.8                               # 80% train, 20% val
 )
 ```
 
-#### Step 2: Verify Dataset Structure
+#### Step 2: Verify Dataset
 ```
 training_dataset_v1/
 ├── images/
@@ -154,41 +215,28 @@ training_dataset_v1/
 └── dataset_info.json           # Conversion statistics
 ```
 
-### Phase 4: Model Training
+### Phase 5: Model Training
 
-#### Step 1: Object Detection Training
-Notebook: `4_object_detection_training.ipynb`
-
-#### Step 2: Training Configuration
-```python
-# Optimized for M4 Pro
-training_config = {
-    'model_size': 'yolov8n.pt',     # Nano for speed
-    'epochs': 100,                   # More epochs for small datasets
-    'batch_size': 8,                # Conservative for M4 Pro  
-    'image_size': 640,              # Standard YOLO input
-    'device': 'mps',                # Apple Silicon GPU
-    'patience': 20,                 # Early stopping
-}
-```
-
-#### Step 3: Start Training
+#### Step 1: Train Object Detection Model
 ```python
 from ultralytics import YOLO
 
-model = YOLO('yolov8n.pt')
+# Load pre-trained model
+model = YOLO('yolov8n.pt')  # Nano model for M4 Pro
+
+# Train on your dataset
 results = model.train(
     data='training_dataset_v1/data.yaml',
     epochs=100,
     imgsz=640,
-    batch=8,
-    device='mps',
-    project='model_training',
-    name='experiment_v1'
+    batch=8,                    # Optimized for M4 Pro
+    device='mps',              # Apple Silicon GPU
+    project='models',
+    name='your_project_v1'
 )
 ```
 
-#### Step 4: Expected Performance
+#### Step 2: Expected Performance
 
 | Dataset Size | Training Time | Expected mAP50 |
 |-------------|---------------|----------------|
@@ -196,35 +244,27 @@ results = model.train(
 | 100-500 images | 30-60 minutes | 0.6-0.8 (good performance) |
 | 1000+ images | 2-4 hours | 0.8+ (production ready) |
 
-### Phase 5: Model Evaluation and Inference
+### Phase 6: Model Testing and Demo
 
-#### Step 1: Analyze Training Results
+#### Step 1: Load Trained Model
 ```python
-# Validation metrics
-val_results = model.val()
-print(f"mAP50: {val_results.box.map50:.3f}")
-print(f"mAP50-95: {val_results.box.map:.3f}")
-```
-
-#### Step 2: Test Inference
-```python
-# Load trained model
-trained_model = YOLO('model_training/experiment_v1/weights/best.pt')
+# Load your trained model
+trained_model = YOLO('models/your_project_v1/weights/best.pt')
 
 # Test on new image
 results = trained_model.predict(
     'test_image.jpg',
-    conf=0.25,                      # Confidence threshold
-    save=True                       # Save annotated image
+    conf=0.25,                 # Confidence threshold
+    save=True                  # Save annotated result
 )
 ```
 
-#### Step 3: Create Demo Function
+#### Step 2: Create Demo Function
 ```python
 def create_demo_function(model_path, class_names):
     demo_model = YOLO(model_path)
     
-    def detect_objects(image_path, confidence=0.25):
+    def detect_damage(image_path, confidence=0.25):
         results = demo_model.predict(image_path, conf=confidence)
         
         detections = []
@@ -240,87 +280,37 @@ def create_demo_function(model_path, class_names):
         return {
             'detections': detections,
             'total_objects': len(detections),
-            'objects_found': len(detections) > 0
+            'damage_found': len(detections) > 0
         }
     
-    return detect_objects
+    return detect_damage
 
 # Create demo function
-demo_function = create_demo_function(
-    'model_training/experiment_v1/weights/best.pt',
-    ['class_1', 'class_2', 'class_3', 'class_4']
+demo = create_demo_function(
+    'models/your_project_v1/weights/best.pt',
+    ['no_damage', 'light_damage', 'moderate_damage', 'severe_damage']
 )
 
-# Use demo function
-result = demo_function('client_image.jpg')
-print(f"Found {result['total_objects']} objects")
-```
-
-## 📊 Project Templates
-
-### Template 1: Damage Detection
-```
-Project: Building/Infrastructure Damage
-Classes: no_damage, light_damage, moderate_damage, severe_damage
-Use Case: Insurance claims, maintenance planning
-```
-
-### Template 2: Quality Control
-```
-Project: Manufacturing Quality Control  
-Classes: defect_free, minor_defect, major_defect, critical_defect
-Use Case: Automated quality inspection
-```
-
-### Template 3: Medical Imaging
-```
-Project: Medical Image Analysis
-Classes: normal, abnormal, requires_attention
-Use Case: Screening and diagnosis support
+# Use with client images
+result = demo('client_image.jpg')
+print(f"Found {result['total_objects']} damage areas")
 ```
 
 ## 🔧 Advanced Configuration
 
-### Custom Split Strategies
-
-#### Manual Split (Control which images go to validation)
-```python
-convert_custom_dataset(
-    'export.json',
-    'images/',
-    'dataset_manual_split',
-    split_method='manual',
-    train_indices=[0, 1, 2, 3, 4, 5]  # First 6 for training
-)
-```
-
-#### Balanced Split (Even distribution across classes)
-```python
-convert_custom_dataset(
-    'export.json', 
-    'images/',
-    'dataset_balanced',
-    split_ratio=0.7  # 70/30 split
-)
-```
-
-### Training Optimizations
-
-#### For Small Datasets (<100 images)
+### Custom Training for Small Datasets (<100 images)
 ```python
 model.train(
     data='data.yaml',
     epochs=200,                     # More epochs
-    batch=1,                        # Smaller batch
+    batch=4,                        # Smaller batch
     imgsz=416,                      # Smaller image size
     lr0=0.001,                      # Lower learning rate
-    hsv_h=0.1, hsv_s=0.9, hsv_v=0.9, # Heavy augmentation
-    degrees=30, translate=0.2,      # More augmentation
-    mosaic=1.0, mixup=0.5          # Data mixing
+    augment=True,                   # Heavy augmentation
 )
 ```
 
-#### For Large Datasets (1000+ images)
+### Custom Training for Large Datasets (1000+ images)
 ```python
 model.train(
     data='data.yaml',
@@ -337,7 +327,7 @@ model.train(
 ### Export for Different Platforms
 ```python
 # Load trained model
-model = YOLO('path/to/best.pt')
+model = YOLO('models/your_project_v1/weights/best.pt')
 
 # Export to ONNX (cross-platform)
 model.export(format='onnx')
@@ -349,142 +339,114 @@ model.export(format='coreml')
 model.export(format='tf')
 ```
 
-### Client Deployment Options
-
-#### Option 1: Python API
-```python
-from ultralytics import YOLO
-
-class ObjectDetectionAPI:
-    def __init__(self, model_path):
-        self.model = YOLO(model_path)
-    
-    def predict(self, image_path):
-        return self.model.predict(image_path)
-```
-
-#### Option 2: Web Service
-```python
-from flask import Flask, request, jsonify
-from ultralytics import YOLO
-
-app = Flask(__name__)
-model = YOLO('best.pt')
-
-@app.route('/predict', methods=['POST'])
-def predict():
-    # Handle image upload and prediction
-    pass
-```
-
-#### Option 3: iOS/macOS App
-- Use exported CoreML model
-- Integrate with native Swift/Objective-C
-- Real-time camera inference
-
 ## 🚨 Troubleshooting
 
-### Common Issues
-
-#### Installation Problems
+### Environment Issues
 ```bash
-# If ultralytics installation fails
-pip install ultralytics --no-cache-dir
+# Check environment status
+check_services
 
-# If torch MPS not available
-# Check macOS version (requires 12.3+)
-python -c "import torch; print(torch.backends.mps.is_available())"
+# If virtual environment not active
+source .venv/bin/activate
+
+# If services won't start
+stop_services
+pkill -f jupyter
+pkill -f label-studio
+source ./setup.sh
+
+# If packages missing
+pip install -r requirements.txt
 ```
 
-#### Training Issues
+### Training Issues
 ```bash
 # If training crashes with memory error
-# Reduce batch size in training config
-batch=4  # or batch=1 for very limited memory
+# Reduce batch size: batch=4 or batch=1
+
+# If MPS not available
+python -c "import torch; print(torch.backends.mps.is_available())"
+# Should return True on M4 Pro with macOS 12.3+
 
 # If no objects detected after training
-# Check dataset format and labels
 # Lower confidence threshold: conf=0.01
+# Check dataset labels format
 ```
 
-#### Label Studio Issues
+### Label Studio Issues
 ```bash
-# If Label Studio won't start
-label-studio start --port 8081  # Try different port
+# If Label Studio won't load
+# Check: http://localhost:8080
+# Try restarting: stop_services && source ./setup.sh
 
-# If images won't load
-# Check file permissions and paths
+# If images won't display
+# Check file paths and permissions
 # Ensure images are in correct directory
 ```
 
-### Performance Optimization
+## 📈 Project Templates
 
-#### For Faster Training
-- Use `yolov8n.pt` (nano model)
-- Reduce image size: `imgsz=416`
-- Increase batch size if memory allows
-- Use MPS acceleration: `device='mps'`
-
-#### For Better Accuracy  
-- Use `yolov8s.pt` or `yolov8m.pt`
-- Increase epochs for small datasets
-- Add more training data
-- Use data augmentation
-
-## 📈 Scaling for Production
-
-### Data Collection Strategy
-1. **Start small**: 10-50 images for proof of concept
-2. **Iterative improvement**: Add 100-200 images per iteration  
-3. **Production ready**: 1000+ images with good class balance
-4. **Continuous learning**: Regular model updates with new data
-
-### Model Versioning
+### Template 1: Damage Detection
 ```
-models/
-├── v1.0_proof_of_concept/
-│   ├── best.pt
-│   ├── training_config.yaml
-│   └── performance_metrics.json
-├── v2.0_production/
-│   ├── best.pt  
-│   ├── training_config.yaml
-│   └── performance_metrics.json
-└── latest/                     # Symlink to current best model
+Classes: no_damage, light_damage, moderate_damage, severe_damage
+Use Case: Insurance claims, maintenance inspection
+Typical Dataset: 100-500 images per class
 ```
 
-### Client Handoff Checklist
+### Template 2: Quality Control
+```
+Classes: defect_free, minor_defect, major_defect, critical_defect
+Use Case: Manufacturing quality inspection
+Typical Dataset: 200-1000 images per class
+```
+
+### Template 3: Security Monitoring
+```
+Classes: person, vehicle, package, intruder
+Use Case: Automated security systems
+Typical Dataset: 500-2000 images per class
+```
+
+## 🤝 Client Handoff
+
+### Deliverables Checklist
 - [ ] Trained model files (`best.pt`)
 - [ ] Training performance report
 - [ ] Demo inference function
 - [ ] Deployment documentation
-- [ ] Data collection guidelines for improvement
-- [ ] Model update/retraining process
+- [ ] Data collection guidelines
+- [ ] Model update process
+
+### Model Versioning
+```
+models/
+├── client_project_v1.0/
+│   ├── weights/best.pt
+│   ├── training_config.yaml
+│   └── performance_report.pdf
+├── client_project_v2.0/
+│   ├── weights/best.pt
+│   ├── training_config.yaml
+│   └── performance_report.pdf
+└── latest/                     # Symlink to current best
+```
 
 ## 📚 Resources
 
-### Documentation
 - [YOLOv8 Documentation](https://docs.ultralytics.com/)
 - [Label Studio Documentation](https://labelstud.io/guide/)
 - [PyTorch MPS Guide](https://pytorch.org/docs/stable/notes/mps.html)
 
-### Example Projects
-- Roof damage detection
-- Manufacturing quality control
-- Medical image analysis
-- Retail inventory management
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Test on MacBook Pro M4 setup
-4. Submit pull request with performance benchmarks
-
 ## 📄 License
 
-MIT License - feel free to use for commercial projects and client work.
+MIT License - free for commercial use and client projects.
 
 ---
 
-**🚀 Ready to build professional computer vision solutions on MacBook Pro M4!**
+**🚀 Professional computer vision pipeline ready for MacBook Pro M4!**
+
+**Quick Commands:**
+- Start: `source ./setup.sh`
+- Check: `check_services`
+- Stop: `stop_services`
+- Help: `show_help`
