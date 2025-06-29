@@ -1,0 +1,43 @@
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Virtual environment
+venv/
+env/
+ENV/
+
+# YOLOv8 Model Files
+*.pt
+yolov8*.pt
+best.pt
+last.pt
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+
+# Data files (optional - remove if you want to track data)
+*.csv
+*.xlsx
+*.json
+data/
+
+# Exclude everything in projects folder
+projects/*
+
+# Exclude the models folder
+models/*
+
+# But include specific files (examples)
+!projects/.gitkeep
+!projects/README.md
+!projects/*.txt
